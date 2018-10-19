@@ -2,7 +2,7 @@
  * Lesson 2. Arrays and sorting
  *
  * @author Ivan Chaykin
- * @data 15.10.2018
+ * @date 15.10.2018
  */
 
 import java.util.Arrays;
