@@ -1,14 +1,14 @@
 import java.util.Objects;
 
 /**
- * Created by Derians
+ * Created by Ivan Chaykin
  * Date: 19.10.2018
  * Time: 10:39
  */
 public class Link {
 
     private final int data;
-    public Link next;
+    private Link next;
 
     public Link(int data) {
         this.data = data;

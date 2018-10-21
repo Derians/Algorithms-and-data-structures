@@ -1,9 +1,9 @@
 /**
- * Created by Derians
+ * Created by Ivan Chaykin
  * Date: 19.10.2018
  * Time: 10:41
  */
-public interface LinkedList {
+public interface LinkedList extends Iterable {
 
     void add(int value);
 
@@ -21,4 +21,5 @@ public interface LinkedList {
 
     Link getFirstElement();
 
+    void setFirstElement(Link link);
 }

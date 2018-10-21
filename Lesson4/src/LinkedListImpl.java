@@ -1,12 +1,9 @@
-import java.util.Iterator;
-import java.util.function.Consumer;
-
 /**
- * Created by Derians
+ * Created by Ivan Chaykin
  * Date: 19.10.2018
  * Time: 10:42
  */
-public class LinkedListImpl implements LinkedList, Iterable {
+public class LinkedListImpl implements LinkedList {
 
     protected Link firstElement;
     protected int size;
@@ -70,11 +67,9 @@ public class LinkedListImpl implements LinkedList, Iterable {
 
         if (previousLink == null) {
             firstElement = currentLink.getNext();
-        }
-        else {
+        } else {
             previousLink.setNext(currentLink.getNext());
         }
-
         size--;
         return currentLink;
     }
@@ -85,17 +80,11 @@ public class LinkedListImpl implements LinkedList, Iterable {
         StringBuilder displayString = new StringBuilder();
 
         while (currentLink != null) {
-
             displayString.append(currentLink);
             currentLink = currentLink.getNext();
             if (currentLink != null)
                 displayString.append(" -> ");
-
-//            System.out.print(currentLink);
-//            System.out.print(" -> ");
-//            currentLink = currentLink.getNext();
         }
-
         System.out.println(displayString);
     }
 
@@ -105,12 +94,12 @@ public class LinkedListImpl implements LinkedList, Iterable {
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public void setFirstElement(Link link) {
+        firstElement = link;
     }
 
     @Override
-    public void forEach(Consumer action) {
-
+    public LinkIterator iterator() {
+        return new LinkIterator(this);
     }
 }
