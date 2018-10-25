@@ -1,7 +1,7 @@
 import java.io.File;
 
 /**
- * Created by Derians
+ * Created by Ivan Chaykin
  * Date: 23.10.2018
  * Time: 10:36
  */
