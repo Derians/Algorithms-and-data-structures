@@ -19,4 +19,6 @@ public interface  Tree {
 
     void traverse(TraverseMode mode);
 
+    boolean isBalanced();
+
 }

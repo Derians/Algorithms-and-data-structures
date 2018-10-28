@@ -11,10 +11,16 @@ import java.util.Stack;
 public class TreeImpl implements Tree {
 
     private Node root;
-
     private int size;
+    private int maxLevel;
+
+    public TreeImpl(int maxLevel) {
+        this.maxLevel = maxLevel;
+        this.size = 0;
+    }
 
     public TreeImpl() {
+        this.maxLevel = 0;
         this.size = 0;
     }
 
@@ -26,24 +32,26 @@ public class TreeImpl implements Tree {
             return;
         }
 
+        if (maxLevel != 0 && height(root) >= maxLevel)
+            return;
+
         Node current = root;
         Node parent = null;
 
         while (current != null) {
             parent = current;
 
-//            if (current.getKey() == value.getId()) {
-//                current.setData(value);
-//                return;
-//            }
+            if (current.getKey() == value.getId()) {
+                current.setData(value);
+                return;
+            }
 
             current = current.getChildByKey(value.getId());
         }
 
-        if ( parent.isLeftChild(value.getId()) ) {
+        if (parent.isLeftChild(value.getId())) {
             parent.setLeftChild(node);
-        }
-        else {
+        } else {
             parent.setRightChild(node);
         }
         size++;
@@ -72,18 +80,14 @@ public class TreeImpl implements Tree {
         Node current = nodeAndParent.current;
         Node parent = nodeAndParent.parent;
 
-        if (current == null) {
+        if (current == null)
             return null;
-        }
 
         if (current.isLeaf()) {
             removeLeafNode(id, parent);
-
-        }
-        else if (current.getLeftChild() == null || current.getRightChild() == null) {
+        } else if (current.getLeftChild() == null || current.getRightChild() == null) {
             removeNodeWithSingleChild(current, parent);
-        }
-        else {
+        } else {
             removeNodeWithBothChildren(id, current, parent);
         }
 
@@ -95,11 +99,9 @@ public class TreeImpl implements Tree {
         Node successor = getSuccessor(current);
         if (current == root) {
             root = successor;
-        }
-        else if ( parent.isLeftChild(id) ) {
+        } else if (parent.isLeftChild(id)) {
             parent.setLeftChild(successor);
-        }
-        else {
+        } else {
             parent.setRightChild(successor);
         }
 
@@ -108,10 +110,9 @@ public class TreeImpl implements Tree {
 
     private void removeNodeWithSingleChild(Node current, Node parent) {
         Node childNode = current.getLeftChild() != null ? current.getLeftChild() : current.getRightChild();
-        if ( parent.isLeftChild(current.getKey()) ) {
+        if (parent.isLeftChild(current.getKey())) {
             parent.setLeftChild(childNode);
-        }
-        else {
+        } else {
             parent.setRightChild(childNode);
         }
     }
@@ -119,11 +120,9 @@ public class TreeImpl implements Tree {
     private void removeLeafNode(int id, Node parent) {
         if (parent == null) {
             root = null;
-        }
-        else if ( parent.isLeftChild(id) ) {
+        } else if (parent.isLeftChild(id)) {
             parent.setLeftChild(null);
-        }
-        else {
+        } else {
             parent.setRightChild(null);
         }
     }
@@ -145,8 +144,6 @@ public class TreeImpl implements Tree {
         }
 
         return successor;
-
-
     }
 
     @Override
@@ -154,9 +151,8 @@ public class TreeImpl implements Tree {
         Node current = root;
 
         while (current != null) {
-            if (current.getKey() == id) {
+            if (current.getKey() == id)
                 return current.getData();
-            }
 
             current = current.getChildByKey(id);
         }
@@ -187,9 +183,8 @@ public class TreeImpl implements Tree {
             Stack<Node> localStack = new Stack<>();
 
             isRowEmpty = true;
-            for (int i = 0; i < nBlanks; i++) {
+            for (int i = 0; i < nBlanks; i++)
                 System.out.print(" ");
-            }
 
             while (!globalStack.isEmpty()) {
                 Node tempNode = globalStack.pop();
@@ -197,24 +192,21 @@ public class TreeImpl implements Tree {
                     System.out.print(tempNode.getKey());
                     localStack.push(tempNode.getLeftChild());
                     localStack.push(tempNode.getRightChild());
-                    if (tempNode.getLeftChild() != null || tempNode.getRightChild() != null) {
+                    if (tempNode.getLeftChild() != null || tempNode.getRightChild() != null)
                         isRowEmpty = false;
-                    }
                 } else {
                     System.out.print("--");
                     localStack.push(null);
                     localStack.push(null);
                 }
-                for (int j = 0; j < nBlanks * 2 - 2; j++) {
+                for (int j = 0; j < nBlanks * 2 - 2; j++)
                     System.out.print(" ");
-                }
             }
 
             System.out.println();
 
-            while (!localStack.isEmpty()) {
+            while (!localStack.isEmpty())
                 globalStack.push(localStack.pop());
-            }
 
             nBlanks /= 2;
         }
@@ -272,7 +264,13 @@ public class TreeImpl implements Tree {
         }
     }
 
-    public boolean isBalanced(Node node) {
+    @Override
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+
+    private boolean isBalanced(Node node) {
         return (node == null) ||
                 isBalanced(node.getLeftChild()) &&
                         isBalanced(node.getRightChild()) &&
