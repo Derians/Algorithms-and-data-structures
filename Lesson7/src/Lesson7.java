@@ -38,10 +38,7 @@ public class Lesson7 {
 
         graph.addEdge("Курск", "Воронеж");
 
-
-
-
-
+        graph.findShortPath("Москва", "Воронеж");
 
     }
 

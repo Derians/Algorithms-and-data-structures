@@ -1,5 +1,3 @@
-import org.w3c.dom.Node;
-
 import java.util.*;
 import java.util.function.Function;
 
@@ -151,17 +149,17 @@ public class Graph {
 
     private void visitVertex(Vertex vertex, Collection<Vertex> keeper) {
         vertex.setWasVisited(true);
-        System.out.println(vertex);
+//        System.out.println(vertex);
         keeper.add(vertex);
     }
     private void visitVertex(Vertex vertex, Stack<Vertex> stack) {
         vertex.setWasVisited(true);
-        System.out.println(vertex);
+//        System.out.println(vertex);
         stack.push(vertex);
     }
     private void visitVertex(Vertex vertex, Queue<Vertex> queue) {
         vertex.setWasVisited(true);
-        System.out.println(vertex);
+//        System.out.println(vertex);
         queue.add(vertex);
     }
 
@@ -175,5 +173,60 @@ public class Graph {
         return null;
     }
 
+    private Vertex bfs(Vertex startVertex, Vertex finishVertex) {
+
+        Vertex currentVertex = startVertex;
+        Vertex previousVertex;
+
+        Queue<Vertex> queue = new ArrayDeque();
+
+        visitVertex(currentVertex, queue);
+
+        while ( !queue.isEmpty()) {
+            previousVertex = queue.peek();
+            currentVertex = getAdjUnvisitedVertex(queue.peek());
+            if (currentVertex == null) {
+                queue.remove();
+            }
+            else {
+                visitVertex(currentVertex, queue);
+
+                currentVertex.setPrevious(previousVertex);
+
+                if (currentVertex.getLabel().equals(finishVertex.getLabel())){
+                    break;
+                }
+            }
+        }
+
+        clearVertexes();
+        return currentVertex;
+    }
+
+    public void findShortPath(String startLabel, String finishLable) {
+        Vertex startVertex = findVertex(startLabel);
+        Vertex finishVertex = findVertex(finishLable);
+
+        if (startVertex == null) {
+            throw new IllegalArgumentException("Invalid startLabel: " + startVertex.getLabel());
+        }
+        if (finishVertex == null) {
+            throw new IllegalArgumentException("Invalid startLabel: " + finishVertex.getLabel());
+        }
+
+        Vertex currentVertex = bfs(startVertex, finishVertex);
+
+        Stack<Vertex> stack = new Stack();
+
+        while (currentVertex != null){
+            stack.push(currentVertex);
+            currentVertex = currentVertex.getPrevious();
+        }
+
+        while (!stack.empty()){
+            System.out.println(stack.pop());
+        }
+
+    }
 
 }
